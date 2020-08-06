@@ -10,14 +10,16 @@ import studyIcon from '../../assets/images/icons/study.png';
 import givClassesIcon from '../../assets/images/icons/give-classes.png';
 import heartPurpleIcon from '../../assets/images/icons/heart.png'
 
-// import { Container } from './styles';
-
 const Landing: React.FC = () => {
 
   const { navigate } = useNavigation();
 
   function handleNavigateToGiveClassesPage() {
     navigate('GiveClasses');
+  }
+
+  function handleNavigateToStudyPages() {
+    navigate('Study');
   }
 
   return (
@@ -29,7 +31,10 @@ const Landing: React.FC = () => {
     </Text>
 
     <View style={styles.buttonsContainer}>
-      <RectButton style={[styles.button, styles.buttonPrimary]}>
+      <RectButton 
+        style={[styles.button, styles.buttonPrimary]}
+        onPress={handleNavigateToStudyPages}
+      >
         <Image source={studyIcon}/>
         <Text style={styles.buttonText}>Estudar</Text>
       </RectButton>
