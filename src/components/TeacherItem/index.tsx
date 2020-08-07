@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Text, View } from 'react-native';
+import { Image, Text, View, Linking } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 
 import heartOutlineIcon from '../../assets/images/icons/heart-outline.png';
@@ -8,31 +8,47 @@ import whatsappIcon from '../../assets/images/icons/whatsapp.png';
 
 import styles from './styles';
 
-const TeacherItem: React.FC = () => {
+export interface Teacher {
+  avatar: string;
+  bio: string;
+  cost: number;
+  id: number;
+  name: string;
+  subject: string;
+  whatsapp: string;
+}
+
+interface TeacherItemProps {
+  teacher: Teacher;
+}
+
+const TeacherItem: React.FC<TeacherItemProps> = ({ teacher }) => {
+
+  function handleLinkToWhatsapp() {
+    Linking.openURL((`whatsapp://send?phone=${teacher.whatsapp}`))
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.profile}>
         <Image 
           style={styles.avatar}
-          source={{ uri: 'https://github.com/jairosl.png'}}
+          source={{ uri: teacher.avatar }}
         />
 
         <View style={styles.profileInfo}>
-          <Text style={styles.name}>Jairo Soares de Lima</Text>
-          <Text style={styles.subject}>Matemática</Text>
+          <Text style={styles.name}>{teacher.name}</Text>
+          <Text style={styles.subject}>{teacher.subject}</Text>
         </View>
 
       </View>
 
-      <Text style={styles.bio}>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt, 
-        placeat aspernatur et labore obcaecati laboriosam amet minus hic ducimus suscipit,
-      </Text>
+      <Text style={styles.bio}>{teacher.bio}</Text>
 
       <View style={styles.footer}>
         <Text style={styles.price}>
           Preço/hora {'  '} 
-          <Text style={styles.priceValue}>R$ 120,00</Text>
+          <Text style={styles.priceValue}>R$ {teacher.cost}</Text>
         </Text>
 
         <View style={styles.buttonsContainer}>
@@ -41,7 +57,10 @@ const TeacherItem: React.FC = () => {
             <Image source={unFavoriteIcon}/> 
           </RectButton>
 
-          <RectButton style={styles.contactButton}>
+          <RectButton 
+          style={styles.contactButton} 
+          onPress={handleLinkToWhatsapp}
+          >
             <Image source={whatsappIcon}/>
             <Text style={styles.contactButtonText}>Entrar em contado</Text>
           </RectButton>
